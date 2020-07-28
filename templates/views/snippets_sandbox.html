@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{data.title}}</title>
+
+    <style rel="stylessheet" type="text/css">{{data.css}}</style>
+</head>
+<body>
+
+    {{data.html}}
+
+    <script rel="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="{{url_for('static',filename='assets/lib/plugins.min.js')}}"></script>
+    <script rel="javascript" type="text/babel">{{data.javascript}}</script>
+</body>
+</html>
+

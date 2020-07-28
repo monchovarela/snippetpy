@@ -1,0 +1,14 @@
+{% extends "layout/base.html" %}
+{% block title %} Error {% endblock %}
+{% block editor_css %}{% endblock %}
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">404 not Found</h1>
+    <p class="lead">The page no exists.</p>
+    <hr class="my-4">
+    <p class="lead">
+        <a class="btn btn-primary" href="{{url_for('index')}}">Back to the home</a>
+    </p>
+</div>
+{% block editor_js %}{% endblock %}
+{% endblock %}

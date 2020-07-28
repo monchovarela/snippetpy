@@ -1,0 +1,49 @@
+{% extends "layout/base.html" %}
+{% block title %} Media {% endblock %}
+{% block editor_css %}{% endblock %}
+{% block content %}
+<div class="container mt-4">
+
+    <div class="row">
+        <div class="col-md-4">
+            <form action="/media/upload" method="post" class="form" enctype="multipart/form-data">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="customFile" name="the_file" accept="audio/*,video/*,image/*,.zip,.html,.css,.js" required>
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <input type="submit" class="btn btn-primary mt-4" value="Upload" />
+            </form>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Url</th>
+                        <th scope="col" style="width:4em">Options</th>
+                    </tr>
+                    {% for images in data.img %}
+                        <tr>
+                            <td scope="row">{{images}}</td>
+                            <td><a href="{{url_for('static',filename='uploads/'+images)}}">{{url_for('static',filename='uploads/'+images)}}</a></td>
+                            <td>
+                                <form action="/media/delete" method="post" class="text-center">
+                                    <input type="hidden" name="file" value="{{images}}">
+                                    <button type="submit"  class="btn btn-danger" 
+                                        onclick="return confirm('Are you sure!')" >
+                                        <i class="icon-trash"></i>&nbsp;Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% block editor_js %}{% endblock %}
+{% endblock %}

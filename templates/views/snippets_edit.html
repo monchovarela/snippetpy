@@ -1,0 +1,101 @@
+{% extends "layout/base.html" %}
+{% block title %} Edit {% endblock %}
+{% block navbar %}{% endblock %}
+{% block content %}
+
+<style>
+    body{overflow:hidden;}
+</style>
+
+
+<main id="wrapper">
+
+
+        <div class="left-content" id="editor">
+
+            <div class="html-section">
+                <div class="header">
+                    <span>Html</span>
+                    <a href="#" class="zoom"><i class="icon-resize-full-screen"></i></a>
+                </div>
+                <div class="content"><textarea name="html" id="html">{{data.html}}</textarea></div>
+            </div>
+
+            <div class="css-section">
+                <div class="header">
+                    <span>Css</span>
+                    <a href="#" class="zoom"><i class="icon-resize-full-screen"></i></a>
+                </div>
+                <div class="content"><textarea name="css" id="css">{{data.css}}</textarea></div>
+            </div>
+
+            <div class="js-section">
+                <div class="header">
+                    <span>Javascript</span>
+                    <a href="#" class="zoom"><i class="icon-resize-full-screen"></i></a>
+                </div>
+                <div class="content"><textarea name="javascript" id="javascript">{{data.javascript}}</textarea></div>
+            </div>
+
+        </div>
+
+        <div class="right-content split">
+
+            <iframe id="iframe" src="{{url}}/snippets/preview/{{data.uid}}/" frameborder="0"></iframe>
+
+            <div class="options">
+
+                <div class="float-left">
+                    <a href="{{url_for('snippets')}}" class="btn btn-sm btn-dark">
+                        <i class="icon-chevron-thin-left"></i>
+                    </a>
+                    <button type="submit" class="btn btn-sm btn-dark updateData" data-uid="{{data.uid}}">
+                        <i class="icon-refresh"></i>
+                    </button>
+                </div>
+
+                <div class="float-right">
+                    <a target="_blank" href="{{url}}/snippets/preview/{{data.uid}}" class="btn btn-sm btn-dark">
+                        <i class="icon-expand"></i>
+                    </a>
+                    <button class="btn btn-sm btn-dark">
+                        <i class="icon-download"></i>
+                    </button>
+                    <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#info">
+                        <i class="icon-adjustments"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="infoModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-light">
+        <h5 class="modal-title" id="infoModal">Info</h5>
+        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <input class="form-control" type="text" id="mtitle" value="{{data.title}}">
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" id="mdesc" rows="10">{{data.desc}}</textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary updateModal" data-dismiss="modal" data-uid="{{data.uid}}">Save</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+{% endblock %}

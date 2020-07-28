@@ -1,0 +1,83 @@
+{% extends "layout/base.html" %}
+{% block title %} Manage {% endblock %}
+{% block editor_css %}{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#newSnippet">
+                <i class="icon-write"></i>&nbsp;New Snippet
+            </button>
+        </div>
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tr>
+                        <th scope="col" class="text-info">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Options</th>
+                    </tr>
+                    {% for row in rows %}
+                    <tr>
+                        <td scope="row">{{row.uid}}</td>
+                        <td><a href="{{url}}/snippets/preview/{{row.uid}}" target="__blank">{{row.title}}</a></td>
+                        <td class="text-truncate">{{row.desc}}</td>
+                        <td>{{row.date|datetime}}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    Options
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{url}}/snippets/edit/{{row.uid}}">Edit</a>
+                                    <a class="dropdown-item text-danger" onclick="return confirm('Are you sure!')"  href="{{url}}/snippets/delete/{{row.uid}}">Remove</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="newSnippet" tabindex="-1" role="dialog" aria-labelledby="infoModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-light">
+        <h5 class="modal-title" id="infoModal">New Snippet</h5>
+        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/snippets/new" method="post" class="form">
+          <div class="modal-body">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input class="form-control" type="text" name="title" value="Another title" required>
+                </div>
+                <div class="form-group">
+                    <label for="desc">Description</label>
+                    <textarea class="form-control" name="desc"  rows="5">I love this Code </textarea>
+                </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" >Save</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+{% block editor_js %}{% endblock %}
+{% endblock %}
