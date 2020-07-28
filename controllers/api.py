@@ -1,9 +1,9 @@
 from flask import Markup,render_template,flash,request,redirect,url_for
 import os,datetime,time,sqlite3
 
-db_code = "app/storage/code.db"
-db_notes = "app/storage/notes.db"
-uploads_folder = "app/static/uploads"
+db_code = "storage/code.db"
+db_notes = "storage/notes.db"
+uploads_folder = "static/uploads"
 
 class Api:
     
