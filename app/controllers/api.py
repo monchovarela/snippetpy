@@ -1,37 +1,32 @@
-from flask import Markup
-from flask import render_template
-from flask import flash
-from flask import request
-from flask import redirect
-from flask import url_for
+from flask import Markup,render_template,flash,request,redirect,url_for
+import os,datetime,time,sqlite3
 
-import os
-import datetime
-import time
-import sqlite3
-
-db_code = "storage/code.db"
-db_notes = "storage/notes.db"
+db_code = "app/storage/code.db"
+db_notes = "app/storage/notes.db"
+uploads_folder = "app/static/uploads"
 
 class Api:
-
+    
+    @staticmethod
     def formatDate(t):
         return datetime.datetime.fromtimestamp(int(t)).strftime('%d-%m-%Y')
     ###################################
     # Uploads
     ###################################
+    @staticmethod
     def upload_get_all(path):
         for file in os.listdir(path):
             if os.path.isfile(os.path.join(path, file)):
                 yield file
+    @staticmethod
     def upload_new(f):
-        supportext = (
+        filetypes = (
             '.png', '.jpg', '.jpeg',
             'gif','.zip','.html','.css',
             '.js','.wav','.mp3','.mp4','.webm'
         )
-        if f.filename.lower().endswith(supportext):
-            fileurl = os.path.join('static/uploads/',f.filename)
+        if f.filename.lower().endswith(filetypes):
+            fileurl = os.path.join(uploads_folder,f.filename)
             f.save(fileurl)
             if(os.path.isfile(fileurl)):
                 flash('The file has been uploaded!')
@@ -42,8 +37,9 @@ class Api:
         else :
             flash('Sorry only images are support')
             return redirect(url_for('media'))
+    @staticmethod
     def upload_delete(filename):
-        fileurl = os.path.join('static/uploads/',filename)
+        fileurl = os.path.join(uploads_folder,filename)
         if(os.path.isfile(fileurl)):
             os.remove(fileurl)
             flash('The file has been removed!')
@@ -54,6 +50,7 @@ class Api:
     ###################################
     # Snippets
     ###################################
+    @staticmethod
     def snippets_new():
         try:
             name = request.form['title'].replace(' ', '-').lower()
@@ -76,7 +73,9 @@ class Api:
         finally:
             db.close()
             return redirect(url_for('snippets'))
-    def snippets_update():
+    @staticmethod
+    def snippets_update(uid):
+        db = sqlite3.connect(db_code)
         try:
             req = request.json
             html = req.get('html')
@@ -84,26 +83,19 @@ class Api:
             js = req.get('javascript')
             title = req.get('title')
             desc = req.get('desc')
+            
+            cursor = db.cursor()
+            sql = '''UPDATE code SET title = ?,desc = ?,html = ? ,css = ? ,javascript = ? WHERE uid = ?'''
+            cursor.execute(sql,(title,desc,html,css,js,uid))
 
-            with sqlite3.connect(db_code) as db:
-                c = db.cursor()
-
-                sql = ''' UPDATE code
-                    SET title = ?,
-                    desc = ?,
-                    html = ? ,
-                    css = ? ,
-                    javascript = ?
-                    WHERE uid = ?'''
-
-                c.execute(sql,(title,desc,html,css,js,num))
-                db.commit()
+            db.commit()
         except:
             db.rollback()
             return '{"status":false}'
         finally:
             return '{"status":true}'
             db.close()
+    @staticmethod
     def snippets_get_uid(tpl,uid):
         # formato tupla
         t = (uid,)
@@ -130,6 +122,7 @@ class Api:
             return render_template(tpl,data=data)
         else:
             return render_template('views/error.html')
+    @staticmethod
     def snippets_get_all():
         db = sqlite3.connect(db_code)
         db.row_factory = sqlite3.Row # para poder usar dot notacion
@@ -138,6 +131,7 @@ class Api:
         rows = cur.fetchall();
         cur.close()
         return rows
+    @staticmethod
     def snippets_delete_uid(uid):
         t = (uid,)
         db = sqlite3.connect(db_code)
@@ -149,6 +143,7 @@ class Api:
     ###################################
     # Notes
     ###################################
+    @staticmethod
     def notes_new():
         try:
 
@@ -173,6 +168,7 @@ class Api:
         finally:
             return redirect(url_for('notes'))
             db.close()
+    @staticmethod
     def notes_edit():
         try:
             uid = request.form['uid']
@@ -182,17 +178,10 @@ class Api:
 
             with sqlite3.connect(db_notes) as db:
                 c = db.cursor()
-
-                sql = ''' UPDATE notes
-                    SET title = ?,
-                    desc = ?,
-                    date = ?
-                    WHERE uid = ?'''
-
-                print(title,desc,date,uid)
-
+                sql = '''UPDATE notes SET title = ?,desc = ?,date = ? WHERE uid = ?'''
                 c.execute(sql,(title,desc,date,uid) )
                 db.commit()
+
                 flash('Success, the note is update')
         except:
             db.rollback()
@@ -200,6 +189,7 @@ class Api:
         finally:
             return redirect(url_for('notes'))
             db.close()
+    @staticmethod
     def notes_get_uid(uid):
         t = (uid,)
         db = sqlite3.connect(db_notes)
@@ -209,6 +199,7 @@ class Api:
         rows = cur.fetchone();
         cur.close()
         return rows
+    @staticmethod
     def notes_get_all():
         db = sqlite3.connect(db_notes)
         db.row_factory = sqlite3.Row # para poder usar dot notacion
@@ -217,6 +208,7 @@ class Api:
         rows = cur.fetchall();
         cur.close()
         return rows
+    @staticmethod
     def notes_delete_uid(uid):
         t = (uid,)
         db = sqlite3.connect(db_notes)

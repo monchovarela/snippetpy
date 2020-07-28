@@ -27,9 +27,15 @@
                         <td>{{row.date|datetime}}</td>
                         <td>
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    Options
+                                <button 
+                                    class="btn btn-dark dropdown-toggle" 
+                                    type="button" 
+                                    id="dropdownMenuButton" 
+                                    data-toggle="dropdown" 
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    title="Options">
+                                    <i class="icon-gears"></i>&nbsp;
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="{{url}}/snippets/edit/{{row.uid}}">Edit</a>
