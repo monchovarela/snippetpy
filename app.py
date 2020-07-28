@@ -1,20 +1,12 @@
 from flask import Flask
-from flask import flash
-from flask import session
-from flask import redirect
-from flask import url_for
-from flask import escape
-from flask import request
-from flask import render_template
-from flask import Markup
-from flask import abort
-
-import os
-import datetime
+from flask import flash,session,redirect,url_for,escape,request,render_template,Markup,abort
+import os,datetime
 
 app = Flask(__name__)
 
 from controllers.api import Api
+
+app.jinja_env.filters['datetime'] = Api.formatDate
 
 ####################################
 # - Upload files                   #
