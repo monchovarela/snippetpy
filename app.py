@@ -18,7 +18,6 @@ from controllers.api import Api
 
 app.jinja_env.filters['datetime'] = Api.formatDate
 
-
 '''
     Upload files
 '''
@@ -26,7 +25,7 @@ app.jinja_env.filters['datetime'] = Api.formatDate
 def upload_file():
     if request.method == 'POST':
         f = request.files['the_file']
-        Api.upload_new(f)
+        return Api.upload_new(f)
 
 '''
     Delete files
@@ -35,9 +34,7 @@ def upload_file():
 def delete_file():
     if request.method == 'POST':
         filename = request.form['file']
-        Api.upload_delete(filename)
-
-
+        return Api.upload_delete(filename)
 
 '''
     Rutas
@@ -52,14 +49,14 @@ def snippetsView():
 @app.route("/snippets/new",methods = ['POST', 'GET'])
 def newSnippet():
     if request.method == 'POST':
-        Api.snippets_new()
+        return Api.snippets_new()
     else:
         return redirect(url_for('snippets'))
 
 @app.route("/snippets/update/<int:num>/",methods = ['POST'])
 def updateSnippet(num):
     if request.method == 'POST':
-        Api.snippets_update()
+        return Api.snippets_update()
 
 @app.route("/snippets/edit/<int:num>/")
 def editSnippet(num=47):
@@ -79,18 +76,17 @@ def deleteSnippet(num):
         flash('The file has been removed!')
         
 
-
 @app.route("/notes/new",methods = ['POST', 'GET'])
 def newNote():
     if request.method == 'POST':
-        Api.notes_new()
+        return Api.notes_new()
     else :
         return redirect(url_for('notes'))
 
 @app.route("/notes/edit/<int:num>/",methods = ['POST','GET'])
 def editNote(num):
     if request.method == 'POST':
-        Api.notes_edit()
+        return Api.notes_edit()
     else :
         return render_template(
                 'views/notes_edit.html',
@@ -214,5 +210,5 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=8080,debug=True)
+    app.run(host='0.0.0.0',port=5000,debug=True)
 

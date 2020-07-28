@@ -17,7 +17,9 @@ class Api:
 
     def formatDate(t):
         return datetime.datetime.fromtimestamp(int(t)).strftime('%d-%m-%Y')
-    
+    ###################################
+    # Uploads
+    ###################################
     def upload_get_all(path):
         for file in os.listdir(path):
             if os.path.isfile(os.path.join(path, file)):
@@ -49,15 +51,17 @@ class Api:
         else :
             flash('The file not exists')
             return redirect(url_for('media'))
-
+    ###################################
+    # Snippets
+    ###################################
     def snippets_new():
         try:
             name = request.form['title'].replace(' ', '-').lower()
             title = request.form['title']
             desc = request.form['desc']
-            date = time.time()
+            date = time.time()  
 
-            with sqlite3.connect("storage/code.db") as db:
+            with sqlite3.connect(db_code) as db:
                 c = db.cursor()
 
                 sql = '''INSERT INTO code
@@ -66,13 +70,12 @@ class Api:
 
                 c.execute(sql,(name,title,desc,date) )
                 db.commit()
-                flash('Success, new item is added')
         except:
             db.rollback()
             flash('Error in insert operation')
         finally:
-            return redirect(url_for('snippets'))
             db.close()
+            return redirect(url_for('snippets'))
     def snippets_update():
         try:
             req = request.json
@@ -82,7 +85,7 @@ class Api:
             title = req.get('title')
             desc = req.get('desc')
 
-            with sqlite3.connect("storage/code.db") as db:
+            with sqlite3.connect(db_code) as db:
                 c = db.cursor()
 
                 sql = ''' UPDATE code
@@ -143,7 +146,9 @@ class Api:
         db.commit()
         c.close()
         return redirect(url_for('snippets'))
-
+    ###################################
+    # Notes
+    ###################################
     def notes_new():
         try:
 
@@ -152,7 +157,7 @@ class Api:
             desc = request.form['desc']
             date = request.form['date']
 
-            with sqlite3.connect("storage/notes.db") as db:
+            with sqlite3.connect(db_notes) as db:
                 c = db.cursor()
 
                 sql = '''INSERT INTO notes
@@ -175,7 +180,7 @@ class Api:
             desc = request.form['desc']
             date = request.form['date']
 
-            with sqlite3.connect("storage/notes.db") as db:
+            with sqlite3.connect(db_notes) as db:
                 c = db.cursor()
 
                 sql = ''' UPDATE notes
@@ -220,6 +225,3 @@ class Api:
         db.commit()
         c.close()
         return redirect(url_for('notes'))
-
-
-
