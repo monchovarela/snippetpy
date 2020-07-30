@@ -1,33 +1,31 @@
-::-webkit-scrollbar { background: #212121; }
-::-webkit-scrollbar-thumb { background: #17141f; }
 html, body { position: relative; height: 100%; margin: 0; padding: 0; -webkit-box-sizing: border-box; box-sizing: border-box; }
 main#wrapper { height: 100%; opacity: 0; visibility: hidden; }
 main#wrapper.loaded { opacity: 1; visibility: visible; transition: all 500ms ease; }
 
 /* edit */
 .left-content, .right-content { width: -webkit-calc(100%/2 - 1px); width: calc(100%/2 - 1px); height: 100%; float: left; }
-.left-content { border-right: 1px solid #2f363b; }
+.left-content { border-right: 1px solid var(--gray-dark);}
 .right-content iframe { width: 100%; height: -webkit-calc(100% - 50px); height: calc(100% - 50px); border: none; padding: 0; }
-.right-content { background: #17141f; }
-.right-content iframe { background: white; }
-.html-section, .css-section, .js-section { height: -webkit-calc(100%/3); height: calc(100%/3); width: 100%; background: #2f363b; }
-.html-section .header, .css-section .header, .js-section .header { height: 30px; padding: 3px; background: #17141f; color: #ffffff; width: 100%; border-bottom: 1px solid #2f363b; overflow: hidden; }
+.right-content { background: var(--gray-dark);}
+.right-content iframe { background: var(--white);}
+.html-section, .css-section, .js-section { height: -webkit-calc(100%/3); height: calc(100%/3); width: 100%; background: var(--gray-dark); }
+.html-section .header, .css-section .header, .js-section .header { height: 30px; padding: 3px; background: var(--gray-dark); color: var(--white); width: 100%; border-bottom: 1px solid var(--gray-dark); overflow: hidden; }
 .header > span { padding-left: 1em; }
 .CodeMirror { height: 100%; }
-.html-section .content, .css-section .content, .js-section .content { height: -webkit-calc(100% - 2.5em); height: calc(100% - 2.5em); background: #2f363b; color: #ffffff; width: 100%; border-bottom: 1px solid #2f363b; }
+.html-section .content, .css-section .content, .js-section .content { height: -webkit-calc(100% - 2.5em); height: calc(100% - 2.5em); background: var(--gray-dark); color: var(--white); width: 100%; border-bottom: 1px solid var(--gray-dark) }
 .html-section .content textarea, .css-section .content textarea, .js-section .content textarea { border: none; resize: none; height: 100%; margin: 0; }
 .html-section .content textarea:focus, .css-section .content textarea:focus, .js-section .content textarea:focus { border: none; outline: none; }
 
 /* Split */
-#code .gutter { background-color: #1d1d1d; background-repeat: no-repeat; background-position: 50%; }
-.gutter.gutter-horizontal { cursor: col-resize; background: url(vertical.png) no-repeat center center scroll #17141f; }
+#code .gutter { background-color: var(--gray-dark); background-repeat: no-repeat; background-position: 50%; }
+.gutter.gutter-horizontal { cursor: col-resize; background: url(vertical.png) no-repeat center center scroll var(--gray-dark); }
 .gutter.gutter-vertical { cursor: row-resize; background-image: url('horizontal.png'); }
 .split.split-horizontal, .gutter.gutter-horizontal { height: 100%; float: left; }
 
 /* notification
 -------------------------*/
-.notification { position: fixed; bottom: 1em; right: 1em; list-style: none; margin: 0; padding: 0; -webkit-animation: fadeIn 1s ease; animation: fadeIn 1s ease; background: #000000; padding: 1em; color: white; }
+.notification { position: fixed; bottom: 1em; right: 1em; list-style: none; margin: 0; padding: 0; -webkit-animation: fadeIn 1s ease; animation: fadeIn 1s ease; background: var(--gray-dark); padding: 1em; color: var(--white); }
 
 /* Zoom */
-.zoom { width: 25px; height: 24px; line-height: 24px; float: right; color: #607D8B; cursor: pointer; display: block; padding: 0; text-align: center; text-decoration: none; -webkit-transition: all 400ms ease; -o-transition: all 400ms ease; transition: all 400ms ease; }
-.zoom:hover { color: #03A9F4; text-decoration: none; -webkit-transition: all 400ms ease; -o-transition: all 400ms ease; transition: all 400ms ease; outline: none; }
+.zoom { width: 25px; height: 24px; line-height: 24px; float: right; color: var(--gray); cursor: pointer; display: block; padding: 0; text-align: center; text-decoration: none; -webkit-transition: all 400ms ease; -o-transition: all 400ms ease; transition: all 400ms ease; }
+.zoom:hover { color: var(--primary); text-decoration: none; -webkit-transition: all 400ms ease; -o-transition: all 400ms ease; transition: all 400ms ease; outline: none; }

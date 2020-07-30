@@ -8,11 +8,19 @@
         <div class="col-md-4">
             <form action="/media/upload" method="post" class="form" enctype="multipart/form-data">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="customFile" name="the_file" accept="audio/*,video/*,image/*,.zip,.html,.css,.js" required>
-                    <label class="custom-file-label" for="customFile">Choose file</label>
+                    <input type="file" class="custom-file-input" id="customFile" name="the_file" accept="audio/*,video/*,image/*,.zip,.html,.css,.js,.pdf,.doc,.docx" required>
+                    <label class="custom-file-label" id="customFileLabel" for="customFile">Choose file</label>
                 </div>
                 <input type="submit" class="btn btn-primary mt-4" value="Upload" />
             </form>
+            {% block script %}
+            <script type="text/javascript">
+                window.customFile.addEventListener('change',evt => {
+                    if(evt.target.value) 
+                        window.customFileLabel.textContent = evt.target.value
+                });
+            </script>
+            {% endblock %}
         </div>
     </div>
 
@@ -22,21 +30,25 @@
                 <table class="table table-bordered">
                     <tr>
                         <th scope="col">Name</th>
-                        <th scope="col">Url</th>
+                        <th scope="col">Link</th>
                         <th scope="col" style="width:4em">Options</th>
                     </tr>
                     {% for images in data.img %}
                         <tr>
                             <td scope="row">{{images}}</td>
-                            <td><a href="{{url_for('static',filename='uploads/'+images)}}">{{url_for('static',filename='uploads/'+images)}}</a></td>
+                            <td><a target="_blank" href="{{url_for('static',filename='uploads/'+images)}}">{{images}}</a></td>
                             <td>
-                                <form action="/media/delete" method="post" class="text-center">
-                                    <input type="hidden" name="file" value="{{images}}">
-                                    <button type="submit"  class="btn btn-danger" 
-                                        onclick="return confirm('Are you sure!')" >
-                                        <i class="icon-trash"></i>&nbsp;Delete
-                                    </button>
-                                </form>
+                                <div class="btn-group" role="group" aria-label="Options">
+                                    <a target="_blank" class="btn btn-sm btn-primary mr-md-1" href="{{url_for('static',filename='uploads/'+images)}}"><i class="icon-eye"></i></a>
+                                    <form action="/media/delete" method="post" class="text-center">
+                                        <input type="hidden" name="file" value="{{images}}">
+                                        <button type="submit" class="btn btn-sm btn-danger" 
+                                            title="Delete"
+                                            onclick="return confirm('Are you sure!')" >
+                                            <i class="icon-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}
