@@ -52,16 +52,10 @@ def delete_file():
 def snippets():
     #  check user session
     if 'username' in session:
-        data = {}
         tpl = 'views/snippets.html'
-        return render_template(tpl,data=data)
+        return render_template(tpl,rows = Snippet.all())
     # no session go to login page
     return redirect(url_for('login'))
-
-@app.route("/snippets")
-def snippetsView():
-    tpl = "views/snippets.html"
-    return render_template(tpl,rows = Snippet.all())
 
 @app.route("/snippets/new",methods = ['POST', 'GET'])
 def newSnippet():
