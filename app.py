@@ -31,19 +31,23 @@ def media():
             tpl = 'views/media.html'
             return render_template(tpl,data=data)
     # no session go to login page
-    return redirect(url_for('login'))
+    return abort(404)
 
 @app.route('/media/upload', methods=['GET', 'POST'])
 def upload_file():
-    if request.method == 'POST':
-        f = request.files['the_file']
-        return Upload.add(f)
+    if 'username' in session and 'secretkey' in session:
+        if request.method == 'POST':
+            f = request.files['the_file']
+            return Upload.add(f)
+    return abort(404)
 
 @app.route('/media/delete', methods=['GET', 'POST'])
 def delete_file():
-    if request.method == 'POST':
-        filename = request.form['file']
-        return Upload.delete(filename)
+    if 'username' in session and 'secretkey' in session:
+        if request.method == 'POST':
+            filename = request.form['file']
+            return Upload.delete(filename)
+    return abort(404)
 
 # ----------------------------------
 
@@ -51,42 +55,51 @@ def delete_file():
 @app.route('/snippets')
 def snippets():
     #  check user session
-    if 'username' in session:
+    if 'username' in session and 'secretkey' in session:
         tpl = 'views/snippets.html'
         return render_template(tpl,rows = Snippet.all())
     # no session go to login page
-    return redirect(url_for('login'))
+    return abort(404)
 
 @app.route("/snippets/new",methods = ['POST', 'GET'])
 def newSnippet():
-    if request.method == 'POST':
-        return Snippet.add()
-    else:
-        return redirect(url_for('snippets'))
+    if 'username' in session and 'secretkey' in session:
+        if request.method == 'POST':
+            return Snippet.add()
+        else:
+            return redirect(url_for('snippets'))
+    return abort(404)
 
 @app.route("/snippets/update/<int:num>/",methods = ['POST'])
 def updateSnippet(num):
-    if request.method == 'POST':
-        return Snippet.put(num)
+    if 'username' in session and 'secretkey' in session:
+        if request.method == 'POST':
+            return Snippet.put(num)
+    return abort(404)
 
 @app.route("/snippets/edit/<int:num>/")
 def editSnippet(num=47):
-    tpl = 'views/snippets_edit.html'
-    return Snippet.get(tpl,num)
+    if 'username' in session and 'secretkey' in session:
+        tpl = 'views/snippets_edit.html'
+        return Snippet.get(tpl,num)
+    return abort(404)
 
 @app.route("/snippets/preview/<int:num>/")
 def previewSnippet(num):
     tpl = 'views/snippets_sandbox.html'
     return Snippet.get(tpl,num)
 
+
 @app.route("/snippets/delete/<int:num>/")
 def deleteSnippet(num):
-    try:
-        return Snippet.delete(num)
-    except Exception:
-        flash('The file is not removed!')
-    finally:
-        flash('The file has been removed!')
+    if 'username' in session and 'secretkey' in session:
+        try:
+            return Snippet.delete(num)
+        except Exception:
+            flash('The file is not removed!')
+        finally:
+            flash('The file has been removed!')
+    return abort(404)
 
 # ----------------------------------
 
@@ -94,35 +107,42 @@ def deleteSnippet(num):
 @app.route('/notes')
 def notes():
     #  check user session
-    if 'username' in session:
+    if 'username' in session and 'secretkey' in session:
         tpl = 'views/notes.html'
         return render_template(tpl,rows=Note.all())
     # no session go to login page
-    return redirect(url_for('login'))
+    return abort(404)
 
 @app.route("/notes/new",methods = ['POST', 'GET'])
 def newNote():
-    if request.method == 'POST':
-        return Note.add()
-    else :
-        return redirect(url_for('notes'))
+    if 'username' in session and 'secretkey' in session:
+        if request.method == 'POST':
+            return Note.add()
+        else :
+            tpl = 'views/notes_new.html'
+            return render_template(tpl)
+    return abort(404)
 
 @app.route("/notes/edit/<int:num>/",methods = ['POST','GET'])
 def editNote(num):
-    if request.method == 'POST':
-        return Note.edit()
-    else :
-        tpl = 'views/notes_edit.html'
-        return render_template(tpl,data=Note.get(num))
+    if 'username' in session and 'secretkey' in session:
+        if request.method == 'POST':
+            return Note.edit()
+        else :
+            tpl = 'views/notes_edit.html'
+            return render_template(tpl,data=Note.get(num))
+    return abort(404)
 
 @app.route("/notes/delete/<int:num>/")
 def deleteNote(num):
-    try:
-        return Note.delete(num)
-    except Exception:
-        flash('The note is not removed!')
-    finally:
-        flash('The note has been removed!')
+    if 'username' in session and 'secretkey' in session:
+        try:
+            return Note.delete(num)
+        except Exception:
+            flash('The note is not removed!')
+        finally:
+            flash('The note has been removed!')
+    return abort(404)
         
 # ----------------------------------
 

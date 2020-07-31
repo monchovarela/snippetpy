@@ -16,6 +16,11 @@ main#wrapper.loaded { opacity: 1; visibility: visible; transition: all 500ms eas
 .html-section .content textarea, .css-section .content textarea, .js-section .content textarea { border: none; resize: none; height: 100%; margin: 0; }
 .html-section .content textarea:focus, .css-section .content textarea:focus, .js-section .content textarea:focus { border: none; outline: none; }
 
+
+/* pre
+-------------------------*/
+pre{background: var(--primary);color: var(--light);font-weight: bold;letter-spacing: 2px;}
+
 /* Split */
 #code .gutter { background-color: var(--gray-dark); background-repeat: no-repeat; background-position: 50%; }
 .gutter.gutter-horizontal { cursor: col-resize; background: url(vertical.png) no-repeat center center scroll var(--gray-dark); }
@@ -29,3 +34,6 @@ main#wrapper.loaded { opacity: 1; visibility: visible; transition: all 500ms eas
 /* Zoom */
 .zoom { width: 25px; height: 24px; line-height: 24px; float: right; color: var(--gray); cursor: pointer; display: block; padding: 0; text-align: center; text-decoration: none; -webkit-transition: all 400ms ease; -o-transition: all 400ms ease; transition: all 400ms ease; }
 .zoom:hover { color: var(--primary); text-decoration: none; -webkit-transition: all 400ms ease; -o-transition: all 400ms ease; transition: all 400ms ease; outline: none; }
+
+/* padding bottom*/
+.btn > i {line-height: 2;}

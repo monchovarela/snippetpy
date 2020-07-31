@@ -26,22 +26,15 @@
                         <td class="text-truncate">{{row.desc}}</td>
                         <td>{{row.date|datetime}}</td>
                         <td>
-                            <div class="dropdown">
-                                <button 
-                                    class="btn btn-primary btn-sm dropdown-toggle" 
-                                    type="button" 
-                                    id="dropdownMenuButton" 
-                                    data-toggle="dropdown" 
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                    title="Options">
-                                    <i class="icon-gears mr-2"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="{{url}}/snippets/edit/{{row.uid}}">Edit</a>
-                                    <a class="dropdown-item text-danger" onclick="return confirm('Are you sure!')"  href="{{url}}/snippets/delete/{{row.uid}}">Remove</a>
-                                </div>
-                            </div>
+                            <a 
+                                class="btn btn-sm btn-primary" 
+                                href="{{url}}/snippets/edit/{{row.uid}}" 
+                                title="edit"><i class="icon-edit"></i></a>
+                            <a 
+                                class="btn btn-sm btn-danger" 
+                                onclick="return confirm('Are you sure!')"  
+                                href="{{url}}/snippets/delete/{{row.uid}}"
+                                title="Remove"><i class="icon-trash"></i></a>
                         </td>
                     </tr>
                     {% endfor %}

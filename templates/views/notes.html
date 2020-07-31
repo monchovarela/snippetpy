@@ -5,26 +5,29 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12 mb-3">
-            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newNote">
+            <a class="btn btn-primary btn-sm" href="{{url}}/notes/new">
                 <i class="icon-write mr-2"></i>New Note
-            </button>
+            </a>
         </div>
         <div class="col-md-12">
             <div class="row">
                 {% for row in rows %}
                     <div class="col-md-4">
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header bg-dark text-light">
                                 {{row.title}}
                                 <div class="float-right">
-                                    <small class="text-info">{{row.date}}</small>
+                                    <small class="text-warning">{{row.date}}</small>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                {{row.desc}}
+                            <div class="card-body p-0 bg-primary" style="min-height:8rem">
+                               <pre class="p-2">{{row.desc}}</pre>
                             </div>
                             <div class="card-footer bg-light text-right">
-                                <a class="btn btn-sm btn-primary" href="{{url}}/notes/edit/{{row.uid}}" title="Edit"><i class="icon-edit2"></i></a>
+                                <a 
+                                    class="btn btn-sm btn-primary" 
+                                    href="{{url}}/notes/edit/{{row.uid}}" 
+                                    title="Edit"><i class="icon-edit2"></i></a>
                                 <a 
                                     class="btn btn-sm btn-danger" 
                                     onclick="return confirm('Are you sure!')"  
@@ -39,41 +42,5 @@
     </div>
 </div>
 
-
-<!-- Modal -->
-<div class="modal fade" id="newNote" tabindex="-1" role="dialog" aria-labelledby="infoModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-dark text-light">
-                <h5 class="modal-title" id="infoModal">New Note</h5>
-                <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="/notes/new" method="post" class="form" id="formNotes">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="title">Title</label>
-                        <input class="form-control" type="text" name="title" value="Another title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="desc">Description</label>
-                        <textarea class="form-control" name="desc" rows="5">I love this Code </textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="desc">Date</label>
-                        <input type="date" class="form-control" name="date" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-  
 {% block editor_js %}{% endblock %}
 {% endblock %}
